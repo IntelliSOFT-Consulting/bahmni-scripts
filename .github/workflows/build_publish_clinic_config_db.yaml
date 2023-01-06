@@ -2,7 +2,7 @@ name: Build and Publish OpenMRS Clinic Config DB
 on:
   push:
     branches:
-      - main
+      - master
       - 'release-*'
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
