@@ -202,38 +202,18 @@ SELECT person_id, uuid FROM person;
 
 
 	-- If you change columns here, edit copy_openmrs_patient_data_to_*.sql files
-SELECT p.uuid, pui.uuid old_uuid, pio.identifier old_identifier, pi.identifier, pn.given_name,  pn.middle_name,  pn.family_name,
-	   p.birthdate, p.death_date, p.gender
-FROM person p 
-JOIN patient_identifier pi on p.person_id = pi.patient_id and pi.preferred = 1 and pi.voided = 0 
-JOIN person_name pn on p.person_id = pn.person_id and pn.voided = 0 and pn.preferred = 1 
-JOIN person_address pad ON pad.person_id = p.person_id
-JOIN temp_patient_identifier_old pio on pio.patient_id = pi.patient_id
-JOIN temp_person_uuid_old pui ON pui.person_id = p.person_id
-INTO OUTFILE '/tmp/openmrs_patient.csv' 
-FIELDS TERMINATED BY ',' 
-ENCLOSED BY '"' 
-LINES TERMINATED BY '\n';
+-- SELECT p.uuid, pui.uuid old_uuid, pio.identifier old_identifier, pi.identifier, pn.given_name,  pn.middle_name,  pn.family_name,
+-- 	   p.birthdate, p.death_date, p.gender
+-- FROM person p 
+-- JOIN patient_identifier pi on p.person_id = pi.patient_id and pi.preferred = 1 and pi.voided = 0 
+-- JOIN person_name pn on p.person_id = pn.person_id and pn.voided = 0 and pn.preferred = 1 
+-- JOIN person_address pad ON pad.person_id = p.person_id
+-- JOIN temp_patient_identifier_old pio on pio.patient_id = pi.patient_id
+-- JOIN temp_person_uuid_old pui ON pui.person_id = p.person_id
+-- INTO OUTFILE '/tmp/openmrs_patient.csv' 
+-- FIELDS TERMINATED BY ',' 
+-- ENCLOSED BY '"' 
+-- LINES TERMINATED BY '\n';
 
-DROP TABLE temp_patient_identifier_old;
-DROP TABLE temp_person_uuid_old;
-
---
--- Bahmni specific
---
-TRUNCATE failed_events;
-
-UPDATE person_attribute
-INNER JOIN person_attribute_type on person_attribute_type.person_attribute_type_id = person_attribute.person_attribute_type_id
-AND person_attribute_type.name = 'primaryRelative'
-SET person_attribute.value = concat('primaryRelative-', person_id);
-
-UPDATE person_attribute 
-INNER JOIN person_attribute_type on person_attribute_type.person_attribute_type_id = person_attribute.person_attribute_type_id
-AND person_attribute_type.name = 'primaryContact'
-SET person_attribute.value = floor(pow(10, 9) + rand() * (pow(10, 10) - pow(10, 9)));
-
-DELETE person_attribute
-FROM person_attribute
-INNER JOIN person_attribute_type on person_attribute_type.person_attribute_type_id = person_attribute.person_attribute_type_id
-AND person_attribute_type.name IN ('givenNameLocal', 'familyNameLocal', 'middleNameLocal');
+-- DROP TABLE temp_patient_identifier_old;
+-- DROP TABLE temp_person_uuid_old;
