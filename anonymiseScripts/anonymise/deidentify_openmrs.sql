@@ -185,7 +185,7 @@ INSERT INTO
 SELECT
 	patient_id,
 	concat((Select prefix from idgen_seq_id_gen order by rand() limit 1), patient_id),
-	(Select patient_identifier_type_id from patient_identifier_type where name = 'Bahmni Id'),
+	(Select patient_identifier_type_id from patient_identifier_type where name = 'OpenMRS Id'),
 	1,
 	1,
 	1,
