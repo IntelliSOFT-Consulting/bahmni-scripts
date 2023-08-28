@@ -172,7 +172,7 @@ set
 --
 
 -- identifiers (Assumes patient_identifier have been truncated)
-CREATE TABLE temp_patient_identifier_old(patient_id int, identifier  varchar(256), PRIMARY KEY(patient_id));
+CREATE TABLE temp_patient_identifier_old(patient_id int, identifier  varchar(255), PRIMARY KEY(patient_id, identifier));
 
 INSERT INTO temp_patient_identifier_old 
 SELECT patient_id, identifier FROM patient_identifier;
